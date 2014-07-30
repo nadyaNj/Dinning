@@ -1,0 +1,9 @@
+xml.file.path=/home/nadya/Works/Dinning/target/dinning-web
+image.save.path=/home/nadya/Works/Dinning/src/main/webapp/pictures/
+
+# Logging settings
+# Please set log file directory path
+log.home=
+log4j.commons.level=error
+log4j.udinning.level=debug
+log4j.all.level=info

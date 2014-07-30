@@ -1,0 +1,460 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `cafeteria` DEFAULT CHARACTER SET utf8 ;
+USE `cafeteria` ;
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`category` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`category` (
+  `cat_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `cat_name` VARCHAR(64) NOT NULL ,
+  `cat_createat` DATETIME NOT NULL ,
+  `cat_changeat` DATETIME NOT NULL ,
+  PRIMARY KEY (`cat_id`) ,
+  UNIQUE INDEX `cat_id_UNIQUE` (`cat_id` ASC) ,
+  UNIQUE INDEX `cat_name_UNIQUE` (`cat_name` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`company`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`company` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`company` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(15) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`department`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`department` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`department` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `company_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_department_company` (`company_id` ASC) ,
+  CONSTRAINT `fk_department_company`
+    FOREIGN KEY (`company_id` )
+    REFERENCES `cafeteria`.`company` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`states`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`states` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`states` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `users_state` VARCHAR(12) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `users_state_UNIQUE` (`users_state` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`roles`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`roles` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `role` VARCHAR(64) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `role_UNIQUE` (`role` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`users` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`users` (
+  `usr_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `usr_username` VARCHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
+  `usr_password` VARCHAR(64) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
+  `usr_role_id` INT(11) NOT NULL ,
+  `usr_email` VARCHAR(30) NULL DEFAULT NULL ,
+  `usr_dep_id` INT(35) NOT NULL ,
+  `usr_position` VARCHAR(35) NULL DEFAULT NULL ,
+  `usr_createat` DATETIME NOT NULL ,
+  `usr_changeat` DATETIME NOT NULL ,
+  `usr_status` INT(11) NOT NULL ,
+  `usr_discount` VARCHAR(32) NOT NULL ,
+  PRIMARY KEY (`usr_id`) ,
+  UNIQUE INDEX `usr_id_UNIQUE` (`usr_id` ASC) ,
+  UNIQUE INDEX `usr_username_UNIQUE` (`usr_username` ASC) ,
+  INDEX `fk_users_usr_role_id` (`usr_role_id` ASC) ,
+  INDEX `fk_users_states` (`usr_status` ASC) ,
+  INDEX `fk_users_depid` (`usr_dep_id` ASC) ,
+  CONSTRAINT `fk_users_depid`
+    FOREIGN KEY (`usr_dep_id` )
+    REFERENCES `cafeteria`.`department` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_states`
+    FOREIGN KEY (`usr_status` )
+    REFERENCES `cafeteria`.`states` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_usr_role_id`
+    FOREIGN KEY (`usr_role_id` )
+    REFERENCES `cafeteria`.`roles` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`menu`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`menu` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`menu` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `menu_actual_date` DATE NOT NULL ,
+  `users_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  UNIQUE INDEX `menu_actual_date_UNIQUE` (`menu_actual_date` ASC) ,
+  INDEX `fk_menu_users1` (`users_id` ASC) ,
+  CONSTRAINT `fk_menu_users1`
+    FOREIGN KEY (`users_id` )
+    REFERENCES `cafeteria`.`users` (`usr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`mesurement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`mesurement` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`mesurement` (
+  `mes_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `mes_name` VARCHAR(64) NOT NULL ,
+  `mes_createat` DATETIME NOT NULL ,
+  `mes_changeat` DATETIME NOT NULL ,
+  PRIMARY KEY (`mes_id`) ,
+  UNIQUE INDEX `mes_id_UNIQUE` (`mes_id` ASC) ,
+  UNIQUE INDEX `mes_name_UNIQUE` (`mes_name` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`products`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`products` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`products` (
+  `pr_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `pr_name` VARCHAR(64) NOT NULL ,
+  `pr_price` INT(11) NOT NULL ,
+  `pr_picurl` VARCHAR(64) NULL DEFAULT NULL ,
+  `pr_desc` TEXT NULL DEFAULT NULL ,
+  `pr_code` INT(8) NOT NULL ,
+  `pr_mes_id` INT(11) NOT NULL ,
+  `pr_hide` TINYINT(1) NOT NULL ,
+  `pr_createat` DATETIME NOT NULL ,
+  `pr_changeat` DATETIME NOT NULL ,
+  `pr_disc_price` INT(11) NOT NULL ,
+  PRIMARY KEY (`pr_id`) ,
+  UNIQUE INDEX `pr_id_UNIQUE` (`pr_id` ASC) ,
+  UNIQUE INDEX `pr_name_UNIQUE` (`pr_name` ASC) ,
+  UNIQUE INDEX `pr_code_UNIQUE` (`pr_code` ASC) ,
+  INDEX `pr_fk_mes` (`pr_mes_id` ASC) ,
+  CONSTRAINT `pr_fk_mes`
+    FOREIGN KEY (`pr_mes_id` )
+    REFERENCES `cafeteria`.`mesurement` (`mes_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`menu_items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`menu_items` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`menu_items` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `menu_id` INT(11) NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  `product_count` INT(11) NOT NULL ,
+  `active` TINYINT(1) NOT NULL ,
+  `creation_date` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  INDEX `fk_menu_items_menu1` (`menu_id` ASC) ,
+  INDEX `fk_menu_items_products1` (`product_id` ASC) ,
+  CONSTRAINT `fk_menu_items_menu1`
+    FOREIGN KEY (`menu_id` )
+    REFERENCES `cafeteria`.`menu` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_menu_items_products1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `cafeteria`.`products` (`pr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`surplus_menu`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`surplus_menu` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`surplus_menu` (
+  `sm_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `sm_menu_actual_date` DATE NOT NULL ,
+  `sm_users_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`sm_id`) ,
+  UNIQUE INDEX `sm_menu_actual_date_UNIQUE` (`sm_menu_actual_date` ASC) ,
+  INDEX `fk_sm_menu_users1` (`sm_users_id` ASC) ,
+  CONSTRAINT `fk_sm_menu_users1`
+    FOREIGN KEY (`sm_users_id` )
+    REFERENCES `cafeteria`.`users` (`usr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`surplus_menu_items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`surplus_menu_items` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`surplus_menu_items` (
+  `smi_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `smi_menu_id` INT(11) NOT NULL ,
+  `smi_product_id` INT(11) NOT NULL ,
+  `smi_product_count` INT(11) NOT NULL ,
+  `smi_creation_date` DATETIME NOT NULL ,
+  PRIMARY KEY (`smi_id`) ,
+  INDEX `fk_smi_menu_items_menu1` (`smi_menu_id` ASC) ,
+  INDEX `fk_smi_menu_items_products1` (`smi_product_id` ASC) ,
+  CONSTRAINT `fk_smi_menu_items_menu1`
+    FOREIGN KEY (`smi_menu_id` )
+    REFERENCES `cafeteria`.`surplus_menu` (`sm_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_smi_menu_items_products1`
+    FOREIGN KEY (`smi_product_id` )
+    REFERENCES `cafeteria`.`products` (`pr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`product_category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`product_category` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`product_category` (
+  `prcat_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `prcat_pr_id` INT(11) NOT NULL ,
+  `prcat_cat_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`prcat_id`) ,
+  INDEX `prcat_fk_pr` (`prcat_pr_id` ASC) ,
+  INDEX `prcat_fk_cat` (`prcat_cat_id` ASC) ,
+  CONSTRAINT `prcat_fk_cat`
+    FOREIGN KEY (`prcat_cat_id` )
+    REFERENCES `cafeteria`.`category` (`cat_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `prcat_fk_pr`
+    FOREIGN KEY (`prcat_pr_id` )
+    REFERENCES `cafeteria`.`products` (`pr_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`employee_basket`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`employee_basket` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`employee_basket` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cashier_id` INT NOT NULL ,
+  `payment_type_code` INT NOT NULL ,
+  `payment_date` DATETIME NOT NULL ,
+  `payment_total` DECIMAL NOT NULL ,
+  `usr_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  INDEX `fk_employee_basket_users1` (`usr_id` ASC) ,
+  CONSTRAINT `fk_employee_basket_users1`
+    FOREIGN KEY (`usr_id` )
+    REFERENCES `cafeteria`.`users` (`usr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`shared_basket`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`shared_basket` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`shared_basket` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cashier_id` INT NOT NULL ,
+  `payment_date` DATETIME NOT NULL ,
+  `payment_total` DECIMAL NOT NULL ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`employee_bought_items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`employee_bought_items` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`employee_bought_items` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `item_price` DECIMAL NOT NULL ,
+  `item_discount_price` DECIMAL NOT NULL ,
+  `bought_date` DATETIME NOT NULL ,
+  `employee_basket_id` INT NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  INDEX `fk_employee_basket_items_employee_basket1` (`employee_basket_id` ASC) ,
+  INDEX `fk_employee_cash_items_products1` (`product_id` ASC) ,
+  CONSTRAINT `fk_employee_basket_items_employee_basket1`
+    FOREIGN KEY (`employee_basket_id` )
+    REFERENCES `cafeteria`.`employee_basket` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_employee_cash_items_products1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `cafeteria`.`products` (`pr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cafeteria`.`bought_items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cafeteria`.`bought_items` ;
+
+CREATE  TABLE IF NOT EXISTS `cafeteria`.`bought_items` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `item_price` DECIMAL NOT NULL ,
+  `bought_date` DATETIME NOT NULL ,
+  `shared_basket_id` INT NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  INDEX `fk_bought_items_shared_basket1` (`shared_basket_id` ASC) ,
+  INDEX `fk_bought_items_products1` (`product_id` ASC) ,
+  CONSTRAINT `fk_bought_items_shared_basket1`
+    FOREIGN KEY (`shared_basket_id` )
+    REFERENCES `cafeteria`.`shared_basket` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bought_items_products1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `cafeteria`.`products` (`pr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Data for table `cafeteria`.`roles`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `cafeteria`;
+INSERT INTO `cafeteria`.`roles` (`id`, `role`) VALUES (NULL, 'admin'), (NULL, 'cook'), (NULL, 'hr'), (NULL, 'user'), (NULL, 'cashier');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `cafeteria`.`states`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `cafeteria`;
+INSERT INTO `cafeteria`.`states` (`id`, `users_state`) VALUES (NULL, 'Active'), (NULL, 'Pending'), (NULL, 'InActive');
+
+COMMIT;
+-- -----------------------------------------------------
+-- Data for table `cafeteria`.`company` & `cafeteria`.`department`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `cafeteria`;
+
+INSERT INTO `company` (`id`, `name`) VALUES
+(1, 'IUNetworks');
+INSERT INTO `department` (`id`, `name`, `company_id`) VALUES
+(1, 'IT', 1);
+
+COMMIT;
+-- -----------------------------------------------------
+-- Data for table `cafeteria`.`users`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `cafeteria`;
+INSERT INTO `users` (`usr_id`, `usr_username`, `usr_password`, `usr_role_id`, `usr_email`, `usr_dep_id`, `usr_position`, `usr_createat`, `usr_changeat`, `usr_status`, `usr_discount`) VALUES
+(1, 'admin', 'admin', 1, 'admin@admin.am', 1, 'administrator', '2012-02-13 23:19:10', '2012-02-13 23:19:10', 1, 'admincode');
+
+COMMIT;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

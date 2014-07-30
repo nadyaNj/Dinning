@@ -1,0 +1,19 @@
+xml.file.path=
+image.save.path=/home/arthur/workspace/Dinning/src/main/webapp/pictures/
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.auth=true
+mail.smtp.port=587
+mail.smtp.starttls.enable=true
+mail.from=alexia.khachatryan@gmail.com
+mail.password=Al3x1a789
+mail.test.email.to=
+
+mail.domains=iunetworks.am,ucom.am,mail.ru,yahoo.com
+
+# Logging settings
+# Please set log file directory path
+log.home=/home/arthur/workspace/Dinning
+log4j.commons.level=error
+log4j.udinning.level=debug
+log4j.all.level=info

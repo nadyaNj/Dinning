@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: activation-1.1.jar commons-fileupload-1.2.jar commons-io-1
+ .4.jar imgscalr-lib-4.1.jar jcl-over-slf4j-1.6.1.jar jstl-1.2.jar log
+ 4j-1.2.16.jar mail-1.4.1.jar mysql-connector-java-5.1.16.jar slf4j-ap
+ i-1.6.1.jar slf4j-log4j12-1.6.1.jar
+

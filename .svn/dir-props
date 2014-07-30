@@ -1,0 +1,18 @@
+K 10
+svn:ignore
+V 100
+.idea
+dinning.iml
+
+.project
+target
+pictures
+all.log
+commons.log
+udinning.log
+
+.settings
+
+.classpath
+
+END

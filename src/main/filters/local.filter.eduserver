@@ -1,0 +1,19 @@
+xml.file.path=/export/home/hhayrayn/app/dinning/dinning-web/
+image.save.path=/export/home/hhayrayn/app/dinning/pictures/
+
+# Logging settings
+# Please set log file directory path
+log.home=/export/home/hhayrayn/app/dinning/
+log4j.commons.level=error
+log4j.udinning.level=debug
+log4j.all.level=info
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.auth=true
+mail.smtp.port=587
+mail.smtp.starttls.enable=true
+mail.from=hayryanh@gmail.com
+mail.password=nosferatu
+mail.test.email.to=
+
+mail.domains=iunetworks.am,ucom.am,gmail.com

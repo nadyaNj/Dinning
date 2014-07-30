@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!--
+   Log configuration
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="UDinningFile" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="@log.home@/udinning.log"/>
+        <param name="MaxFileSize" value="10MB"/>
+        <param name="MaxBackupIndex" value="3"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%p:%d - %m (in %F:%L)%n"/>
+        </layout>
+    </appender>
+
+    <appender name="CommonsFile" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="@log.home@/commons.log"/>
+        <param name="MaxFileSize" value="10MB"/>
+        <param name="MaxBackupIndex" value="3"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%p:%d - %m (in %F:%L)%n"/>
+        </layout>
+    </appender>
+
+    <appender name="AllFile" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="@log.home@/all.log"/>
+        <param name="MaxFileSize" value="10MB"/>
+        <param name="MaxBackupIndex" value="3"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%p:%d - %m (in %F:%L)%n"/>
+        </layout>
+    </appender>
+
+    <appender name="MailFile" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="error"/>
+        <param name="File" value="@log.home@/mail.log"/>
+        <param name="MaxFileSize" value="10MB"/>
+        <param name="MaxBackupIndex" value="3"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%p:%d - %m (in %F:%L)%n"/>
+        </layout>
+    </appender>
+
+    <appender name="MAIL" class="org.apache.log4j.net.SMTPAppender">
+        <param name="Threshold" value="error"/>
+        <param name="To" value="hayk.hayryan@iunetworks.am"/>
+        <param name="From" value="hayk.hayryan@iunetworks.am"/>
+        <param name="Subject" value="@project.name@ Application Error"/>
+        <param name="SMTPHost" value="@smtp.host@"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d %-5p [%t] %C{2} - %m\n"/>
+        </layout>
+    </appender>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d %r %-5p [%t] %C{2} - %m\n"/>
+        </layout>
+    </appender>
+
+    <category name="org.apache.commons">
+        <priority value="@log4j.commons.level@"/>
+        <appender-ref ref="CommonsFile"/>
+    </category>
+
+    <category name="am">
+        <priority value="@log4j.udinning.level@"/>
+        <appender-ref ref="UDinningFile"/>
+    </category>
+
+    <category name="log4j.logger.net.sf.hibernate.SQL">
+        <priority value="@log4j.udinning.level@"/>
+        <appender-ref ref="STDOUT"/>
+    </category>
+
+
+    <root>
+        <priority value="@log4j.all.level@"/>
+        <appender-ref ref="AllFile"/>
+        <!-- for production only
+          <appender-ref ref="MAIL"/>
+          -->
+    </root>
+</log4j:configuration>
+

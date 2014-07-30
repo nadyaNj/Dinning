@@ -1,0 +1,13 @@
+<Context docBase="${xml.file.path}" path="/dinning-web" >
+
+<Resource name="jdbc/mysql" auth="Container" type="javax.sql.DataSource"
+         username="root"
+         password="root"
+         driverClassName="com.mysql.jdbc.Driver"
+         url="jdbc:mysql://localhost:3306/cafeteria?useUnicode=true&amp;characterEncoding=utf8"
+         maxActive="15"
+         maxIdle="7"
+         defaultTransactionIsolation="READ_COMMITTED"
+         validationQuery="Select 1" />
+
+</Context>

@@ -1,0 +1,17 @@
+xml.file.path=/home/hayryanh/work/projects/UDinning/target/dinning-web/
+image.save.path=/home/hayryanh/work/projects/UDinning/pictures/
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.auth=true
+mail.smtp.port=25
+mail.smtp.starttls.enable=true
+mail.from=hayryanh@gmail.com
+mail.password=nosferatu
+mail.test.email.to=
+mail.domains=iunetworks.am,ucom.am,gmail.com
+
+# Logging settings
+log.home=/home/hayryanh/work/projects/UDinning
+log4j.commons.level=error
+log4j.udinning.level=debug
+log4j.all.level=info

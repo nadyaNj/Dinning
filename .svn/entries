@@ -1,0 +1,74 @@
+10
+
+dir
+1385
+svn://admin.iunetworks.am/edu/trunk
+svn://admin.iunetworks.am/edu
+
+
+
+2012-03-12T06:53:13.878905Z
+1385
+amartiro
+has-props
+has-prop-mods
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+eb830ae4-1078-4046-a94b-fad155991c43
+
+Docs
+dir
+
+pom.xml
+file
+
+
+
+
+2012-02-15T06:58:19.000000Z
+0cf48dcd71edb47f92f49481085eed81
+2012-02-14T08:30:46.454876Z
+1093
+hhayryan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6530
+
+rsync
+dir
+
+script
+dir
+
+src
+dir
+

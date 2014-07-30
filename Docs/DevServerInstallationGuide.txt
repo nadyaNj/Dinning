@@ -1,0 +1,43 @@
+##############################################
+# Copyright 2011 U!Com. All rights reserved. #
+##############################################
+ 
+####################################################
+# Application Deployment Guid on Developer Server. #
+####################################################
+
+
+ALL MENTIONED STEPS REQUIRED.
+
+1) Open terminal window and establish secure socet connection  
+ssh hhayryan@edu.iunetworks.am
+Password: 12345
+
+2) After connection write command: 
+sudo bash
+Password: 12345
+
+3) change directory to tomact server's bin directory
+
+cd /opt/tomact6/bin
+
+4) shutdown server:
+./shutdown.sh
+
+5) change directory to application's directory
+cd /export/home/hhayrayn/app/dinning
+
+6) Recursivly remove dinning-web direcotory
+rm -rf dinning-web
+
+7) Go to the applicatio's directory on your local machine and build application using build host property
+mvn clean package  -Dbuildhost=eduserve
+
+8) Go to the targed directory and copy application to the Developer Server
+scp -r dinning-web hhayryan@edu.iunetworks.am:/export/home/hhayrayn/app/dinning
+
+Password: 12345
+
+9) Run TomCat Server on Developer Server
+cd /opt/tomact6/bin
+./startup.sh
